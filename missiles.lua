@@ -61,7 +61,6 @@ local function update(deltaTime)
             local newVelocity = missileVelocity + acceleration
             setElementVelocity(missile, newVelocity)
             setProjectileMatrix(missile, missileVelocity)
-	    iprint("test")
         end
     end
 end
