@@ -11,9 +11,10 @@ function launchSAM(creator)
     local vehicle = getPedOccupiedVehicle(creator)
 
     if not vehicle and target then
-        local x, y, z = getElementPosition(projectile)
-        setElementPosition(projectile, 0, 0, 100)   -- Switch the old one out for the new & better one.
-        createMissile(creator, target, x, y, z)
+        --local x, y, z = getElementPosition(projectile)
+        --setElementPosition(projectile, 0, 0, 100)   -- Switch the old one out for the new & better one.
+        if getElementModel(target) == 425 then return false end
+        createMissile(creator, target, projectile)
     end
 end
 

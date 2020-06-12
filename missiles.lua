@@ -1,3 +1,4 @@
+--math.randomseed(tonumber(sha256(getRealTime().timestamp), 16)^(1/4))
 local function LOSRate(rm, rt, vm, vt)
     local R = {rt[1] - rm[1], rt[2] - rm[2], rt[3] - rm[3]}
     local r = (R[1] ^ 2 + R[2] ^ 2 + R[3] ^ 2) ^ (1 / 2)
@@ -48,20 +49,34 @@ end
 
 local missiles = {}
 
-function createMissile(creator, target, x, y, z)
-    local p = createProjectile(creator, 20, x, y, z)
-    local vx, vy, vz = getElementVelocity(p)
+function createMissile(creator, target, p)
     missiles[target] = p
 end
 
 local function update(deltaTime)
     for target, missile in pairs(missiles) do
-        if target and missile and isElement(missile) and line then
+        if target and missile and isElement(missile) then
             local missileVelocity, acceleration = proportionalNavigation(missile, target, 5)    -- Set NAV_CONST should = 4 or 5 but idk why check wiki
             local newVelocity = missileVelocity + acceleration
             setElementVelocity(missile, newVelocity)
             setProjectileMatrix(missile, missileVelocity)
+        else
+            missiles[target] = nil
         end
     end
 end
 addEventHandler("onClientPreRender", root, update)
+
+addEventHandler("onClientVehicleDamage", root, 
+function(attacker, wep, loss, x, y, z, tire)
+    if source ~= getPedOccupiedVehicle(localPlayer) or wep ~= 51 or getElementModel(source) == 425 then return false end
+    cancelEvent()
+    for i, v in pairs(missiles) do
+        if i == getPedOccupiedVehicle(localPlayer) and getProjectileCreator(v) == attacker then
+            setElementHealth(source, getElementHealth(source) - loss*0.9)
+            if getElementHealth(source) <= 0 then
+                blowVehicle(source)
+            end
+        end
+    end
+end)

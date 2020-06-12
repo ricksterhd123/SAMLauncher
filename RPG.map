@@ -1,0 +1,4 @@
+<map edf:definitions="editor_main">
+    <object id="object (kmb_keypad) (1)" breakable="true" interior="0" alpha="255" dimension="0" model="2922" scale="1" doublesided="false" collisions="true" frozen="false" posX="429.8642" posY="2542.5378" posZ="16.7218" rotX="0" rotY="0" rotZ="90"></object>
+    <pickup id="pickup (Rocket Launcher HS) (1)" type="36" interior="0" amount="5" respawn="300000" dimension="0" alpha="255" posX="441.26199" posY="2546.5012" posZ="16.1797" rotX="0" rotY="0" rotZ="0"></pickup>
+</map>
